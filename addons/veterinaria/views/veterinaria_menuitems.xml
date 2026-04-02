@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="veterinaria_list_action" model="ir.actions.act_window">
+        <field name="name">Lista de Veterinaria</field>
+        <field name="res_model">veterinaria.mascota</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registra tus mascotas aqui.
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem 
+        name="Veterinaria"
+        id="veterinaria_menu"
+        action="veterinaria_list_action"
+        sequence="1">
+
+        <menuitem id="menu_veterinaria_mascota" name="Mascotas" sequence="1"/>
+        
+
+    </menuitem>
+
+</odoo>
