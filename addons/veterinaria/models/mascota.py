@@ -17,4 +17,5 @@ class Mascota(models.Model):
         ('otro', 'Otro'),
     ], string='Especie')
 
+
     

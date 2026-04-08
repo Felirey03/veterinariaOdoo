@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_veterinaria_mascota_tree" model="ir.ui.view">
+        <field name="name">veterinaria.mascota.tree</field>
+        <field name="model">veterinaria.mascota</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="propietario_id"/>
+                <field name="especie"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="veterinaria_mascota_view_form" model="ir.ui.view">
+        <field name="name">veterinaria.mascota.view.form</field>
+        <field name="model">veterinaria.mascota</field>
+        <field name="arch" type="xml">
+            <form string="Mascota">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="edad"/>
+                        <field name="propietario_id"/>
+                        <field name="especie"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

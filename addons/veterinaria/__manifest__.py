@@ -4,12 +4,13 @@
 	"summary": "Módulo base para gestión veterinaria",
 	"category": "Tools",
 	"author": "Felipe Reynoso",
-	"website": "www.github.com/Felirey03",
+	"website": "www.github.com/Felirey03/veterinariaOdoo",
 	"license": "LGPL-3",
 	"depends": ["base"],
 	"data": [
         'security/ir.model.access.csv',
 		'views/veterinaria_menuitems.xml',
+		'views/mascota_views.xml'
     ],
 	"installable": True,
 	"application": False,
