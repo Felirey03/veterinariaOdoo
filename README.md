@@ -39,6 +39,7 @@ Algunas ideas para seguir avanzando:
 - Integración con facturación
 - Mejoras en la visualización de turnos (tipo agenda)
 - Validaciones adicionales en los datos
+- Integración con WhatsApp
 
 ## Objetivo del proyecto
 
