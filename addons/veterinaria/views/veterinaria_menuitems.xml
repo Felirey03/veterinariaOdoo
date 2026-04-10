@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="veterinaria_list_action" model="ir.actions.act_window">
-        <field name="name">Lista de Veterinaria</field>
+    
+    <!--ACTIONS-->
+    <record id="mascota_list_action" model="ir.actions.act_window">
+        <field name="name">Mascotas</field>
         <field name="res_model">veterinaria.mascota</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Registra tus mascotas aqui.
+                Registra tus mascotas aquí.
             </p>
         </field>
     </record>
 
+    <record id="turno_list_action" model="ir.actions.act_window">
+        <field name="name">Turnos</field>
+        <field name="res_model">veterinaria.turno</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registra tus turnos aquí.
+            </p>
+        </field>
+    </record>
 
+    <!--MENUS-->
     <menuitem 
         name="Veterinaria"
         id="veterinaria_menu"
-        action="veterinaria_list_action"
         sequence="1">
 
-        <menuitem id="menu_veterinaria_mascota" name="Mascotas" sequence="1"/>
-        
+        <menuitem 
+            id="menu_veterinaria_turno" 
+            name="Turnos"
+            action="turno_list_action"
+            sequence="1"/>
 
+        <menuitem 
+            id="menu_veterinaria_mascota" 
+            name="Mascotas"
+            action="mascota_list_action"
+            sequence="2"/>
+    
     </menuitem>
 
 </odoo>

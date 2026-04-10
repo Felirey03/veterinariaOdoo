@@ -2,7 +2,6 @@
 Dockerfile
 docker-compose.yaml
 Makefile
-README.md
 requirements.txt
 
 # Carpeta web

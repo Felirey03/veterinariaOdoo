@@ -10,7 +10,8 @@
 	"data": [
         'security/ir.model.access.csv',
 		'views/veterinaria_menuitems.xml',
-		'views/mascota_views.xml'
+		'views/turno_views.xml',
+		'views/mascota_views.xml',
     ],
 	"installable": True,
 	"application": False,
