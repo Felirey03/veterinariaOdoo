@@ -12,6 +12,9 @@ Actualmente el módulo está enfocado en la base del sistema:
 - Relación entre mascotas y sus dueños
 - Turnos para consultas veterinarias
 - Asociación de turnos con veterinarios
+- Validación de horarios (evita solapamientos con margen de 30 min)
+- Vista de agenda/calendario interactiva con pop-ups
+- Ciclo de vida del turno (Borrador, Confirmado, Realizado, etc.) con barra de estado y colores
 
 ## Modelo de datos
 
@@ -26,10 +29,7 @@ Esto permite no duplicar información y aprovechar la estructura que ya trae Odo
 
 ## En qué estoy trabajando ahora
 
-El foco actual está en los turnos, especialmente en:
-
-- Evitar la superposición de horarios
-- Mejorar la gestión de agenda
+El foco actual se desplaza hacia nuevas funcionalidades core:
 
 ## Próximos pasos
 
@@ -37,7 +37,6 @@ Algunas ideas para seguir avanzando:
 
 - Historial clínico de cada mascota
 - Integración con facturación
-- Mejoras en la visualización de turnos (tipo agenda)
 - Validaciones adicionales en los datos
 - Integración con WhatsApp
 

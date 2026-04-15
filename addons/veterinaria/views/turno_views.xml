@@ -10,7 +10,11 @@
                 <field name="mascota_id"/>
                 <field name="veterinario_id"/>
                 <field name="fecha_hora"/>
-                <field name="estado"/>
+                <field name="estado" widget="badge" 
+                    decoration-info="estado == 'confirmed'" 
+                    decoration-success="estado == 'done'" 
+                    decoration-danger="estado == 'cancel'"
+                    decoration-warning="estado == 'pending'"/>
             </tree>
         </field>
     </record>
@@ -21,6 +25,12 @@
         <field name="model">veterinaria.turno</field>
         <field name="arch" type="xml">
             <form string="Turno">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="estado != 'draft'"/>
+                    <button name="action_done" string="Finalizar Consulta" type="object" class="oe_highlight" invisible="estado != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancelar Turno" type="object" invisible="estado in ['done', 'cancel']"/>
+                    <field name="estado" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="mascota_id"/>
@@ -30,6 +40,19 @@
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+
+    <record id="veterinaria_turno_view_calendar" model="ir.ui.view">
+        <field name="name">veterinaria.turno.view.calendar</field>
+        <field name="model">veterinaria.turno</field>
+        <field name="arch" type="xml">
+            <calendar string="Turnos" date_start="fecha_hora" color="veterinario_id" mode="month" event_open_popup="true">
+                <field name="mascota_id"/>
+                <field name="veterinario_id" filters="1"/>
+                <field name="estado" filters="1"/>
+            </calendar>
         </field>
     </record>
 
