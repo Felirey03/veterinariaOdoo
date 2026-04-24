@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Árbol (Lista) -->
+    <record id="view_veterinaria_historial_tree" model="ir.ui.view">
+        <field name="name">veterinaria.historial.tree</field>
+        <field name="model">veterinaria.historial</field>
+        <field name="arch" type="xml">
+            <tree string="Historiales Clínicos">
+                <field name="fecha"/>
+                <field name="mascota_id"/>
+                <field name="propietario_id"/>
+                <field name="veterinario_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de Formulario -->
+    <record id="view_veterinaria_historial_form" model="ir.ui.view">
+        <field name="name">veterinaria.historial.form</field>
+        <field name="model">veterinaria.historial</field>
+        <field name="arch" type="xml">
+            <form string="Consulta Veterinaria">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Información de la Consulta">
+                            <field name="mascota_id"/>
+                            <field name="propietario_id"/>
+                            <field name="fecha"/>
+                            <field name="veterinario_id"/>
+                            <field name="turno_id" groups="base.group_no_one"/>
+                        </group>
+                        <group string="Signos Vitales">
+                            <field name="peso"/>
+                            <field name="temperatura"/>
+                            <field name="frecuencia_cardiaca"/>
+                            <field name="frecuencia_respiratoria"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Subjetivo (S)" name="subjetivo">
+                            <field name="subjetivo" placeholder="Motivo de consulta, síntomas reportados..."/>
+                        </page>
+                        <page string="Objetivo (O)" name="objetivo">
+                            <field name="objetivo" placeholder="Hallazgos del examen físico, resultados de pruebas..."/>
+                        </page>
+                        <page string="Evaluación (A)" name="evaluacion">
+                            <field name="evaluacion" placeholder="Diagnóstico presuntivo o definitivo..."/>
+                        </page>
+                        <page string="Plan (P)" name="plan">
+                            <field name="plan" placeholder="Tratamiento, medicación, recomendaciones..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para abrir los historiales -->
+    <record id="action_veterinaria_historial" model="ir.actions.act_window">
+        <field name="name">Historial Clínico</field>
+        <field name="res_model">veterinaria.historial</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea el primer historial clínico.
+            </p>
+            <p>
+                Aquí podrás registrar todas las consultas siguiendo el formato SOAP.
+            </p>
+        </field>
+    </record>
+</odoo>

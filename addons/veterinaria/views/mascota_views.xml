@@ -7,12 +7,13 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="propietario_id"/>
                 <field name="especie"/>
+                <field name="raza"/>
+                <field name="edad"/>
+                <field name="propietario_id"/>
             </tree>
         </field>
     </record>
-
 
     <record id="veterinaria_mascota_view_form" model="ir.ui.view">
         <field name="name">veterinaria.mascota.view.form</field>
@@ -20,12 +21,37 @@
         <field name="arch" type="xml">
             <form string="Mascota">
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nombre de la Mascota"/>
+                        <h1>
+                            <field name="name" placeholder="Ej: Rocky"/>
+                        </h1>
+                    </div>
+                    
                     <group>
-                        <field name="name"/>
-                        <field name="edad"/>
-                        <field name="propietario_id"/>
-                        <field name="especie"/>
+                        <group string="Información General">
+                            <field name="especie"/>
+                            <field name="raza"/>
+                            <field name="sexo"/>
+                        </group>
+                        <group string="Identidad y Edad">
+                            <field name="fecha_nacimiento"/>
+                            <field name="edad" readonly="1"/>
+                        </group>
                     </group>
+
+                    <group>
+                        <group string="Responsable">
+                            <field name="propietario_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Alertas y Notas Médicas" name="medical_alerts_page">
+                            <separator string="Alertas Críticas (Alergias, Enfermedades, Conducta)"/>
+                            <field name="alerta_medica" placeholder="Ej: Alérgico a la Penicilina. Sufre de convulsiones..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

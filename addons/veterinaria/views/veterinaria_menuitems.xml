@@ -41,6 +41,12 @@
             name="Mascotas"
             action="mascota_list_action"
             sequence="2"/>
+        
+        <menuitem 
+            id="menu_veterinaria_historial" 
+            name="Historial Clínico"
+            action="action_veterinaria_historial"
+            sequence="3"/>
     
     </menuitem>
 

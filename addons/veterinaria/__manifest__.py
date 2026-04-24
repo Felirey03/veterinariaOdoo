@@ -9,9 +9,10 @@
 	"depends": ["base"],
 	"data": [
         'security/ir.model.access.csv',
-		'views/veterinaria_menuitems.xml',
 		'views/turno_views.xml',
 		'views/mascota_views.xml',
+		'views/historial_views.xml',
+		'views/veterinaria_menuitems.xml',
     ],
 	"installable": True,
 	"application": False,

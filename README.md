@@ -6,39 +6,26 @@ La idea principal es evitar procesos manuales o en papel y llevar todo a un sist
 
 ## ¿Qué incluye por ahora?
 
-Actualmente el módulo está enfocado en la base del sistema:
+Actualmente el módulo es una herramienta clínica funcional:
 
-- Gestión de mascotas
-- Relación entre mascotas y sus dueños
-- Turnos para consultas veterinarias
-- Asociación de turnos con veterinarios
-- Validación de horarios (evita solapamientos con margen de 30 min)
-- Vista de agenda/calendario interactiva con pop-ups
-- Ciclo de vida del turno (Borrador, Confirmado, Realizado, etc.) con barra de estado y colores
-
-## Modelo de datos
-
-Se intentó mantener lo más simple posible reutilizando modelos propios de Odoo:
-
-- Los dueños se manejan como contactos (`res.partner`)
-- Los veterinarios como usuarios (`res.users`)
-- Las mascotas están vinculadas a sus dueños
-- Los turnos conectan mascotas con veterinarios en una fecha determinada
-
-Esto permite no duplicar información y aprovechar la estructura que ya trae Odoo.
+- **Gestión de Mascotas**: Ficha enriquecida con raza, sexo, fecha de nacimiento y alertas médicas.
+- **Cómputo Automático de Edad**: Cálculo dinámico en años o meses según la edad del paciente.
+- **Historial Clínico (EMR)**: Registro estructurado bajo formato **SOAP** (Subjetivo, Objetivo, Evaluación, Plan) con seguimiento de signos vitales.
+- **Gestión de Turnos**: Ciclo de vida (Borrador, Confirmado, Realizado), validación de solapamientos y vista de calendario.
+- **Relación Dueño-Mascota**: Vinculación directa con contactos (`res.partner`) de Odoo.
 
 ## En qué estoy trabajando ahora
 
-El foco actual se desplaza hacia nuevas funcionalidades core:
+El foco se desplaza hacia la optimización del flujo de trabajo:
+
+1.  **Automatización de Consulta**: Botón para convertir turnos realizados en entradas de historial automáticamente.
+2.  **Plan Sanitario**: Gestión integral de vacunas y desparasitaciones con control de vencimientos.
 
 ## Próximos pasos
 
-Algunas ideas para seguir avanzando:
-
-- Historial clínico de cada mascota
-- Integración con facturación
-- Validaciones adicionales en los datos
-- Integración con WhatsApp
+- Integración con facturación de Odoo.
+- Notificaciones automáticas (WhatsApp/Email) para turnos y vacunas.
+- Validaciones avanzadas de datos.
 
 ## Objetivo del proyecto
 
