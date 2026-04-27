@@ -30,6 +30,26 @@ class Turno(models.Model):
     def action_cancel(self):
         for record in self:
             record.write({'estado': 'cancel'})
+
+    def iniciar_consulta(self):
+        nuevo_historial = self.env['veterinaria.historial'].create({
+            'mascota_id': self.mascota_id.id,
+            'veterinario_id': self.veterinario_id.id,
+            'fecha': fields.Datetime.now(), 
+            'turno_id': self.id,
+        })
+        
+        self.write({'estado': 'done'})
+    
+        return {
+            'name': 'Historia Clínica',
+            'type': 'ir.actions.act_window',
+            'res_model': 'veterinaria.historial',
+            'res_id': nuevo_historial.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
+
     
     @api.constrains('fecha_hora', 'veterinario_id')
     def _check_fecha_hora(self):

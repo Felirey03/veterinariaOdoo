@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <record id="res_partner_demo_vet" model="res.partner">
+            <field name="name">Juan Pérez</field>
+            <field name="email">juan.perez@example.com</field>
+            <field name="phone">11 2233-4455</field>
+        </record>
+
+        
+        <record id="mascota_rocky" model="veterinaria.mascota">
+            <field name="name">Rocky</field>
+            <field name="especie">perro</field>
+            <field name="raza">Golden Retriever</field>
+            <field name="sexo">macho</field>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+            <field name="propietario_id" ref="res_partner_demo_vet"/>
+            <field name="alerta_medica">Alérgico a la Penicilina. Cuidado con la cadera derecha.</field>
+        </record>
+
+        
+        <record id="historial_demo_1" model="veterinaria.historial">
+            <field name="mascota_id" ref="mascota_rocky"/>
+            <field name="fecha" eval="datetime.now()"/>
+            <field name="peso">15.5</field>
+            <field name="temperatura">38.5</field>
+            <field name="frecuencia_cardiaca">90</field>
+            <field name="frecuencia_respiratoria">24</field>
+            <field name="subjetivo"><![CDATA[
+                <p>El dueño reporta que Rocky ha estado decaído desde ayer. Ha perdido el apetito y no quiere jugar.</p>
+                <ul>
+                    <li>Letargia leve</li>
+                    <li>Inapetencia</li>
+                </ul>
+            ]]></field>
+            <field name="objetivo"><![CDATA[
+                <p><strong>Examen físico:</strong> Mucosas rosadas y húmedas. Tiempo de llenado capilar < 2 seg.</p>
+                <p>Palpación abdominal normal, sin dolor aparente. Ganglios linfáticos normales.</p>
+            ]]></field>
+            <field name="evaluacion"><![CDATA[
+                <p>Posible cuadro viral leve o reacción por cambio de dieta. Se descarta obstrucción por palpación.</p>
+            ]]></field>
+            <field name="plan"><![CDATA[
+                <p>1. Dieta blanda por 48hs (Arroz y pollo).</p>
+                <p>2. Control de temperatura cada 12hs.</p>
+                <p>3. Regresar si presenta vómitos.</p>
+            ]]></field>
+        </record>
+    </data>
+</odoo>

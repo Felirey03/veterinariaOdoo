@@ -8,6 +8,7 @@
 	"license": "LGPL-3",
 	"depends": ["base"],
 	"data": [
+        'data/demo_data.xml',
         'security/ir.model.access.csv',
 		'views/turno_views.xml',
 		'views/mascota_views.xml',
