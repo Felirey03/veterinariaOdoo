@@ -13,19 +13,15 @@ Actualmente el módulo es una herramienta clínica funcional:
 - **Historial Clínico (EMR)**: Registro estructurado bajo formato **SOAP** (Subjetivo, Objetivo, Evaluación, Plan) con seguimiento de signos vitales.
 - **Gestión de Turnos**: Ciclo de vida (Borrador, Confirmado, Realizado), validación de solapamientos y vista de calendario.
 - **Relación Dueño-Mascota**: Vinculación directa con contactos (`res.partner`) de Odoo.
-- **Automatización de Consulta**: Botón inteligente "Iniciar Consulta" que genera el historial médico y gestiona el flujo de estados automáticamente.
+- **Automatización de Consulta**: Botón inteligente "Iniciar Consulta" que genera el historial médico automáticamente.
+- **Plan Sanitario**: Gestión integral de vacunas y desparasitaciones con control de vencimientos y alertas visuales por colores.
 
-## En qué estoy trabajando ahora
-
-El foco se centra en la medicina preventiva y el seguimiento a largo plazo:
-
-1.  **Plan Sanitario**: Gestión integral de vacunas y desparasitaciones con control de lotes y vencimientos.
 
 ## Próximos pasos
 
-- Integración con facturación de Odoo.
-- Notificaciones automáticas (WhatsApp/Email) para turnos y vacunas.
-- Validaciones avanzadas de datos.
+- **IA para WhatsApp**: Implementación de un asistente que entienda mensajes de voz o texto para agendar turnos automáticamente.
+- **Notificaciones**: Avisos automáticos de vencimiento de vacunas.
+- **Facturación**: Integración con el módulo de ventas de Odoo.
 
 ## Objetivo del proyecto
 

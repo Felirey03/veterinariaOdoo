@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_veterinaria_vacuna_tree" model="ir.ui.view">
+            <field name="name">veterinaria.vacuna.tree</field>
+            <field name="model">veterinaria.vacuna</field>
+            <field name="arch" type="xml">
+                <tree string="Plan Sanitario General">
+                    <field name="mascota_id"/>
+                    <field name="producto_id"/>
+                    <field name="fecha_aplicacion"/>
+                    <field name="fecha_refuerzo" decoration-danger="fecha_refuerzo &lt; current_date"/>
+                    <field name="veterinario_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_veterinaria_vacuna_search" model="ir.ui.view">
+            <field name="name">veterinaria.vacuna.search</field>
+            <field name="model">veterinaria.vacuna</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="mascota_id"/>
+                    <field name="producto_id"/>
+                    <filter string="Vencidas / Hoy" name="overdue" domain="[('fecha_refuerzo', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Mascota" name="group_by_mascota" context="{'group_by': 'mascota_id'}"/>
+                        <filter string="Producto" name="group_by_producto" context="{'group_by': 'producto_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_veterinaria_vacuna" model="ir.actions.act_window">
+            <field name="name">Plan Sanitario General</field>
+            <field name="res_model">veterinaria.vacuna</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_overdue': 1}</field>
+        </record>
+    </data>
+</odoo>

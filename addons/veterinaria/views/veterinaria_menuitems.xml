@@ -1,53 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
-    <!--ACTIONS-->
-    <record id="mascota_list_action" model="ir.actions.act_window">
-        <field name="name">Mascotas</field>
-        <field name="res_model">veterinaria.mascota</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Registra tus mascotas aquí.
-            </p>
-        </field>
-    </record>
+    <data>
+        <!--ACTIONS-->
+        <record id="mascota_list_action" model="ir.actions.act_window">
+            <field name="name">Mascotas</field>
+            <field name="res_model">veterinaria.mascota</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Registra tus mascotas aquí.
+                </p>
+            </field>
+        </record>
 
-    <record id="turno_list_action" model="ir.actions.act_window">
-        <field name="name">Turnos</field>
-        <field name="res_model">veterinaria.turno</field>
-        <field name="view_mode">calendar,tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Registra tus turnos aquí.
-            </p>
-        </field>
-    </record>
+        <record id="turno_list_action" model="ir.actions.act_window">
+            <field name="name">Turnos</field>
+            <field name="res_model">veterinaria.turno</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Registra tus turnos aquí.
+                </p>
+            </field>
+        </record>
 
-    <!--MENUS-->
-    <menuitem 
-        name="Veterinaria"
-        id="veterinaria_menu"
-        sequence="1">
-
-        <menuitem 
-            id="menu_veterinaria_turno" 
-            name="Turnos"
-            action="turno_list_action"
-            sequence="1"/>
-
-        <menuitem 
-            id="menu_veterinaria_mascota" 
-            name="Mascotas"
-            action="mascota_list_action"
-            sequence="2"/>
-        
-        <menuitem 
-            id="menu_veterinaria_historial" 
-            name="Historial Clínico"
-            action="action_veterinaria_historial"
-            sequence="3"/>
-    
-    </menuitem>
-
+        <!--MENUS-->
+        <menuitem name="Veterinaria" id="veterinaria_menu" sequence="1">
+            <menuitem id="menu_veterinaria_turno" name="Turnos" action="turno_list_action" sequence="1"/>
+            <menuitem id="menu_veterinaria_mascota" name="Mascotas" action="mascota_list_action" sequence="2"/>
+            <menuitem id="menu_veterinaria_historial" name="Historial Clínico" action="action_veterinaria_historial" sequence="3"/>
+            <menuitem id="menu_veterinaria_vacuna" name="Plan Sanitario" action="action_veterinaria_vacuna" sequence="4"/>
+        </menuitem>
+    </data>
 </odoo>

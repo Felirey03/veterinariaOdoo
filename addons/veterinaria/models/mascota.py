@@ -25,6 +25,8 @@ class Mascota(models.Model):
     edad = fields.Char(string='Edad', compute='_compute_edad', store=False)
     alerta_medica = fields.Text(string='Alerta Médica / Alergias', help="Información crítica que debe verse rápido.")
 
+    vacuna_ids = fields.One2many('veterinaria.vacuna', 'mascota_id')
+
     @api.depends('fecha_nacimiento')
     def _compute_edad(self):
         for record in self:
