@@ -20,6 +20,37 @@
         </record>
 
         
+        <!-- PRODUCTOS DEMO (Vacunas) -->
+        <record id="product_vacuna_rabia" model="product.product">
+            <field name="name">Vacuna Antirrábica</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+        </record>
+
+        <record id="product_vacuna_quintuple" model="product.product">
+            <field name="name">Vacuna Quíntuple</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+        </record>
+
+        <!-- APLICACIONES DE VACUNA DEMO -->
+        <record id="vacuna_demo_1" model="veterinaria.vacuna">
+            <field name="mascota_id" ref="mascota_rocky"/>
+            <field name="producto_id" ref="product_vacuna_rabia"/>
+            <field name="fecha_aplicacion" eval="datetime.now().strftime('%Y-%m-%d')"/>
+            <field name="fecha_refuerzo" eval="(datetime.now() + relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+            <field name="veterinario_id" ref="base.user_admin"/>
+        </record>
+
+        <record id="vacuna_demo_2" model="veterinaria.vacuna">
+            <field name="mascota_id" ref="mascota_rocky"/>
+            <field name="producto_id" ref="product_vacuna_quintuple"/>
+            <field name="fecha_aplicacion" eval="(datetime.now() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+            <field name="fecha_refuerzo" eval="(datetime.now() - relativedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="veterinario_id" ref="base.user_admin"/>
+            <field name="observaciones">Refuerzo pendiente de la sesión anterior.</field>
+        </record>
+
         <record id="historial_demo_1" model="veterinaria.historial">
             <field name="mascota_id" ref="mascota_rocky"/>
             <field name="fecha" eval="datetime.now()"/>

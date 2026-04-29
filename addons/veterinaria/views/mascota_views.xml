@@ -21,6 +21,11 @@
         <field name="arch" type="xml">
             <form string="Mascota">
                 <sheet>
+                    <field name="tiene_vacunas_vencidas" invisible="1"/>
+                    <div class="alert alert-danger text-center" role="alert" invisible="not tiene_vacunas_vencidas">
+                        <strong>ATENCIÓN:</strong> Esta mascota tiene <strong>vacunas o refuerzos vencidos</strong>. Revisar pestaña "Plan Sanitario".
+                    </div>
+
                     <div class="oe_title">
                         <label for="name" string="Nombre de la Mascota"/>
                         <h1>

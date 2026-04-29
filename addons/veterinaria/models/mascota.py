@@ -26,6 +26,15 @@ class Mascota(models.Model):
     alerta_medica = fields.Text(string='Alerta Médica / Alergias', help="Información crítica que debe verse rápido.")
 
     vacuna_ids = fields.One2many('veterinaria.vacuna', 'mascota_id')
+    tiene_vacunas_vencidas = fields.Boolean(compute='_compute_tiene_vacunas_vencidas')
+
+    @api.depends('vacuna_ids.fecha_refuerzo')
+    def _compute_tiene_vacunas_vencidas(self):
+        today = fields.Date.today()
+        for record in self:
+            # Buscamos si alguna vacuna del historial tiene fecha de refuerzo anterior o igual a hoy
+            vencidas = record.vacuna_ids.filtered(lambda v: v.fecha_refuerzo and v.fecha_refuerzo <= today)
+            record.tiene_vacunas_vencidas = bool(vencidas)
 
     @api.depends('fecha_nacimiento')
     def _compute_edad(self):

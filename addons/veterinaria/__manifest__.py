@@ -6,9 +6,10 @@
 	"author": "Felipe Reynoso",
 	"website": "www.github.com/Felirey03/veterinariaOdoo",
 	"license": "LGPL-3",
-	"depends": ["base","product"],
+	"depends": ["base","product","mail", "account"],
 	"data": [
         'data/demo_data.xml',
+        'data/cron_data.xml',
         'security/ir.model.access.csv',
 		'views/turno_views.xml',
 		'views/mascota_views.xml',
