@@ -26,7 +26,16 @@ class Mascota(models.Model):
     alerta_medica = fields.Text(string='Alerta Médica / Alergias', help="Información crítica que debe verse rápido.")
 
     vacuna_ids = fields.One2many('veterinaria.vacuna', 'mascota_id')
-    tiene_vacunas_vencidas = fields.Boolean(compute='_compute_tiene_vacunas_vencidas')
+    tiene_vacunas_vencidas = fields.Boolean(compute='_compute_tiene_vacunas_vencidas', store=True)
+    ultimo_peso = fields.Float(string='Último Peso (kg)', compute='_compute_ultimo_peso')
+
+    def _compute_ultimo_peso(self):
+        for record in self:
+            ultimo_historial = self.env['veterinaria.historial'].search([
+                ('mascota_id', '=', record.id),
+                ('peso', '>', 0)
+            ], order='fecha desc', limit=1)
+            record.ultimo_peso = ultimo_historial.peso if ultimo_historial else 0.0
 
     @api.depends('vacuna_ids.fecha_refuerzo')
     def _compute_tiene_vacunas_vencidas(self):

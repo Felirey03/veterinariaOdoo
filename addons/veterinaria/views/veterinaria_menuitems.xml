@@ -16,7 +16,7 @@
         <record id="turno_list_action" model="ir.actions.act_window">
             <field name="name">Turnos</field>
             <field name="res_model">veterinaria.turno</field>
-            <field name="view_mode">calendar,tree,form</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Registra tus turnos aquí.

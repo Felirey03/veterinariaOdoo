@@ -14,6 +14,7 @@ class HistorialClinico(models.Model):
     propietario_id = fields.Many2one(related='mascota_id.propietario_id', string='Propietario', readonly=True)
     veterinario_id = fields.Many2one('res.users', string='Veterinario', default=lambda self: self.env.user, required=True)
     turno_id = fields.Many2one('veterinaria.turno', string='Turno Relacionado')
+    turno_estado = fields.Selection(related='turno_id.estado', string='Estado del Turno', readonly=True)
 
     
     peso = fields.Float(string='Peso (kg)', digits=(5, 2))
@@ -35,6 +36,12 @@ class HistorialClinico(models.Model):
     def _compute_tiene_factura_activa(self):
         for record in self:
             record.tiene_factura_activa = bool(record.factura_id and record.factura_id.state != 'cancel')
+
+    def action_finalizar_consulta(self):
+        self.ensure_one()
+        if self.turno_id:
+            self.turno_id.action_done()
+        return True
 
     @api.depends('fecha', 'mascota_id')
     def _compute_name(self):

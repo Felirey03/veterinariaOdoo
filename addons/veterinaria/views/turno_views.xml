@@ -14,8 +14,27 @@
                     decoration-info="estado == 'confirmed'" 
                     decoration-success="estado == 'done'" 
                     decoration-danger="estado == 'cancel'"
-                    decoration-warning="estado == 'pending'"/>
+                    decoration-warning="estado == 'in_consultation'"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_veterinaria_turno_search" model="ir.ui.view">
+        <field name="name">veterinaria.turno.search</field>
+        <field name="model">veterinaria.turno</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Turnos">
+                <field name="mascota_id"/>
+                <field name="veterinario_id"/>
+                <field name="estado"/>
+                <field name="fecha_hora"/>
+                <filter name="filtro_hoy" string="Hoy" domain="[('fecha_hora', '&gt;=', context_today()), ('fecha_hora', '&lt;', context_today() + relativedelta(days=1))]"/>
+                <filter name="filtro_confirmados" string="Confirmados" domain="[('estado', '=', 'confirmed')]"/>
+                <filter name="filtro_realizados" string="Realizados" domain="[('estado', '=', 'done')]"/>
+                <separator/>
+                <filter name="group_veterinario" string="Veterinario" context="{'group_by': 'veterinario_id'}"/>
+                <filter name="group_estado" string="Estado" context="{'group_by': 'estado'}"/>
+            </search>
         </field>
     </record>
 
@@ -27,18 +46,21 @@
             <form string="Turno">
                 <header>
                     <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="estado != 'draft'"/>
-                    <button name="action_done" string="Finalizar Consulta" type="object" class="oe_highlight" invisible="estado != 'confirmed'"/>
                     <button name="action_cancel" string="Cancelar Turno" type="object" invisible="estado in ['done', 'cancel']"/>
                     <button name="iniciar_consulta" string="Iniciar Consulta" type="object" class="oe_highlight" invisible="estado != 'confirmed'"/>
-                    <button name="action_whatsapp_reminder" string="WhatsApp Recordatorio" type="object" icon="fa-whatsapp" class="btn-success" invisible="estado == 'cancel'"/>
-                    <field name="estado" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                    <button name="action_whatsapp_reminder" string="WhatsApp Recordatorio" type="object" icon="fa-whatsapp" class="btn-success" invisible="estado == 'cancel' or not mascota_id or not fecha_hora"/>
+                    <field name="estado" widget="statusbar" statusbar_visible="draft,confirmed,in_consultation,done"/>
 
                 </header>
                 <sheet>
                     <group>
-                        <field name="mascota_id"/>
-                        <field name="veterinario_id"/>
-                        <field name="fecha_hora"/>
+                        <group string="Paciente y Profesional">
+                            <field name="mascota_id"/>
+                            <field name="veterinario_id"/>
+                        </group>
+                        <group string="Programación">
+                            <field name="fecha_hora"/>
+                        </group>
                     </group>
                 </sheet>
             </form>

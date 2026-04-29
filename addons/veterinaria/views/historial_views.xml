@@ -26,8 +26,14 @@
                             type="object"
                             class="oe_highlight"
                             invisible="tiene_factura_activa"/>
+                    <button name="action_finalizar_consulta"
+                            string="Finalizar Consulta"
+                            type="object"
+                            confirm="¿Estás seguro de finalizar la atención? El turno será marcado como realizado."
+                            invisible="not turno_id or turno_estado == 'done'"/>
                     <field name="factura_id" readonly="1" invisible="not tiene_factura_activa"/>
                     <field name="tiene_factura_activa" invisible="1"/>
+                    <field name="turno_estado" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -42,7 +48,7 @@
                             <field name="propietario_id"/>
                             <field name="fecha"/>
                             <field name="veterinario_id"/>
-                            <field name="turno_id" groups="base.group_no_one"/>
+                            <field name="turno_id" invisible="1"/>
                         </group>
                         <group string="Signos Vitales">
                             <field name="peso"/>

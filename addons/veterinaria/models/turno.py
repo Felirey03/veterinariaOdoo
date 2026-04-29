@@ -7,15 +7,16 @@ class Turno(models.Model):
     _name = 'veterinaria.turno'
     _description = 'Modelo para representar un turno'
 
-    mascota_id = fields.Many2one('veterinaria.mascota', string='Mascota')
-    veterinario_id = fields.Many2one('res.users', string='Veterinarios')
+    mascota_id = fields.Many2one('veterinaria.mascota', string='Mascota', required=True)
+    veterinario_id = fields.Many2one('res.users', string='Veterinario', required=True)
 
-    fecha_hora = fields.Datetime(string='Fecha de turno')
+    fecha_hora = fields.Datetime(string='Fecha de turno', required=True)
 
     estado = fields.Selection([
         ('draft', 'Borrador'),
         ('pending', 'Pendiente'),
         ('confirmed', 'Confirmado'),
+        ('in_consultation', 'En Consulta'),
         ('done', 'Realizado'),
         ('cancel', 'Cancelado'),
         ], default='draft', string="Estado")
@@ -39,9 +40,9 @@ class Turno(models.Model):
             'fecha': fields.Datetime.now(),
             'turno_id': self.id,
         })
-        self.write({'estado': 'done'})
+        self.write({'estado': 'in_consultation'})
         return {
-            'name': 'Historia Clínica',
+            'name': 'Historial Clínico',
             'type': 'ir.actions.act_window',
             'res_model': 'veterinaria.historial',
             'res_id': nuevo_historial.id,

@@ -15,6 +15,24 @@
         </field>
     </record>
 
+    <record id="view_veterinaria_mascota_search" model="ir.ui.view">
+        <field name="name">veterinaria.mascota.search</field>
+        <field name="model">veterinaria.mascota</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Mascotas">
+                <field name="name"/>
+                <field name="especie"/>
+                <field name="raza"/>
+                <field name="propietario_id"/>
+                <filter name="sin_propietario" string="Sin responsable" domain="[('propietario_id', '=', False)]"/>
+                <filter name="con_vacunas_vencidas" string="Vacunas vencidas" domain="[('tiene_vacunas_vencidas', '=', True)]"/>
+                <separator/>
+                <filter name="group_especie" string="Especie" context="{'group_by': 'especie'}"/>
+                <filter name="group_responsable" string="Responsable" context="{'group_by': 'propietario_id'}"/>
+            </search>
+        </field>
+    </record>
+
     <record id="veterinaria_mascota_view_form" model="ir.ui.view">
         <field name="name">veterinaria.mascota.view.form</field>
         <field name="model">veterinaria.mascota</field>
@@ -38,6 +56,7 @@
                             <field name="especie"/>
                             <field name="raza"/>
                             <field name="sexo"/>
+                            <field name="ultimo_peso" readonly="1"/>
                         </group>
                         <group string="Identidad y Edad">
                             <field name="fecha_nacimiento"/>
