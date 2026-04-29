@@ -8,8 +8,7 @@ class HistorialClinico(models.Model):
 
     name = fields.Char(string='Referencia', compute='_compute_name', store=True)
     fecha = fields.Datetime(string='Fecha de Consulta', default=fields.Datetime.now, required=True)
-    
-    
+
     mascota_id = fields.Many2one('veterinaria.mascota', string='Mascota', required=True, ondelete='cascade')
     propietario_id = fields.Many2one(related='mascota_id.propietario_id', string='Propietario', readonly=True)
     veterinario_id = fields.Many2one('res.users', string='Veterinario', default=lambda self: self.env.user, required=True)
@@ -27,7 +26,8 @@ class HistorialClinico(models.Model):
     evaluacion = fields.Html(string='Evaluación (A)', help="Diagnóstico clínico, presuntivo o diferencial.")
     plan = fields.Html(string='Plan (P)', help="Tratamiento, medicación, recomendaciones y seguimiento.")
 
-
+    
+    factura_id = fields.Many2one('account.move', string='Factura', readonly=True, copy=False)
 
     @api.depends('fecha', 'mascota_id')
     def _compute_name(self):
@@ -37,3 +37,23 @@ class HistorialClinico(models.Model):
                 record.name = f"Consulta: {record.mascota_id.name} ({fecha_str})"
             else:
                 record.name = "Nueva Consulta"
+
+    def action_crear_factura(self):
+        self.ensure_one()
+        factura = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'partner_id': self.propietario_id.id,
+            'invoice_line_ids': [(0, 0, {
+                'name': self.name,
+                'quantity': 1,
+                'price_unit': 0,
+            })],
+        })
+        self.factura_id = factura.id
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_mode': 'form',
+            'res_id': factura.id,
+            'target': 'current',
+        }

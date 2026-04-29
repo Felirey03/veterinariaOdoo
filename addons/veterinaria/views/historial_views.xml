@@ -20,6 +20,14 @@
         <field name="model">veterinaria.historial</field>
         <field name="arch" type="xml">
             <form string="Consulta Veterinaria">
+                <header>
+                    <button name="action_crear_factura"
+                            string="Generar Factura"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="factura_id != False"/>
+                    <field name="factura_id" readonly="1" invisible="not factura_id"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>

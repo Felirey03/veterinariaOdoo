@@ -32,7 +32,7 @@ class Mascota(models.Model):
     def _compute_tiene_vacunas_vencidas(self):
         today = fields.Date.today()
         for record in self:
-            # Buscamos si alguna vacuna del historial tiene fecha de refuerzo anterior o igual a hoy
+            #Buscamos si alguna vacuna del historial tiene fecha de refuerzo anterior o igual a hoy
             vencidas = record.vacuna_ids.filtered(lambda v: v.fecha_refuerzo and v.fecha_refuerzo <= today)
             record.tiene_vacunas_vencidas = bool(vencidas)
 
@@ -45,7 +45,7 @@ class Mascota(models.Model):
                 if diff > 0:
                     record.edad = f"{diff} años"
                 else:
-                    # Cálculo simple de meses si es menor de un año
+                    #Calculo simple de meses si es menor de un año
                     meses = (today.year - record.fecha_nacimiento.year) * 12 + (today.month - record.fecha_nacimiento.month)
                     record.edad = f"{meses} meses"
             else:

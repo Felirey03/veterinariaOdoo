@@ -15,13 +15,13 @@ Actualmente el módulo es una herramienta clínica funcional:
 - **Relación Dueño-Mascota**: Vinculación directa con contactos (`res.partner`) de Odoo.
 - **Automatización de Consulta**: Botón inteligente "Iniciar Consulta" que genera el historial médico automáticamente.
 - **Plan Sanitario**: Gestión integral de vacunas y desparasitaciones con control de vencimientos y alertas visuales por colores.
+- **Notificaciones de Vencimiento**: Actividades automáticas y alerta visual en la ficha de la mascota cuando hay vacunas vencidas.
+- **Facturación**: Generación de facturas de cliente directamente desde el Historial Clínico con integración al módulo contable de Odoo.
 
 
 ## Próximos pasos
 
 - **IA para WhatsApp**: Implementación de un asistente que entienda mensajes de voz o texto para agendar turnos automáticamente.
-- **Notificaciones**: Avisos automáticos de vencimiento de vacunas.
-- **Facturación**: Integración con el módulo de ventas de Odoo.
 
 ## Objetivo del proyecto
 

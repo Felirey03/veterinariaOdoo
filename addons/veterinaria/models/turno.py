@@ -49,6 +49,34 @@ class Turno(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+    def action_whatsapp_reminder(self):
+        """Abre un link de WhatsApp con un mensaje pre-cargado."""
+        self.ensure_one()
+        if not self.mascota_id.propietario_id.mobile and not self.mascota_id.propietario_id.phone:
+            raise ValidationError("El propietario no tiene un número de teléfono configurado.")
+        
+        phone = self.mascota_id.propietario_id.mobile or self.mascota_id.propietario_id.phone
+        phone = "".join(filter(str.isdigit, phone))
+
+       
+        fecha_local = fields.Datetime.context_timestamp(self, self.fecha_hora)
+        fecha_formateada = fecha_local.strftime('%d/%m/%Y %H:%M')
+
+        mensaje = (
+            f"Hola {self.mascota_id.propietario_id.name}! Te escribimos de la Veterinaria para recordarte "
+            f"el turno de {self.mascota_id.name} para el día {fecha_formateada}. Te esperamos!"
+        )
+        
+        import urllib.parse
+        mensaje_encoded = urllib.parse.quote(mensaje)
+        
+        url = f"https://wa.me/{phone}?text={mensaje_encoded}"
+        
+        return {
+            'type': 'ir.actions.act_url',
+            'url': url,
+            'target': 'new',
+        }
 
     
     @api.constrains('fecha_hora', 'veterinario_id')
