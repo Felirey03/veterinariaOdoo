@@ -30,7 +30,7 @@
                     <button name="action_done" string="Finalizar Consulta" type="object" class="oe_highlight" invisible="estado != 'confirmed'"/>
                     <button name="action_cancel" string="Cancelar Turno" type="object" invisible="estado in ['done', 'cancel']"/>
                     <button name="iniciar_consulta" string="Iniciar Consulta" type="object" class="oe_highlight" invisible="estado != 'confirmed'"/>
-                    <button name="action_whatsapp_reminder" string="WhatsApp Recordatorio" type="object" icon="fa-whatsapp" class="btn-success"/>
+                    <button name="action_whatsapp_reminder" string="WhatsApp Recordatorio" type="object" icon="fa-whatsapp" class="btn-success" invisible="estado == 'cancel'"/>
                     <field name="estado" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
 
                 </header>
@@ -39,7 +39,6 @@
                         <field name="mascota_id"/>
                         <field name="veterinario_id"/>
                         <field name="fecha_hora"/>
-                        <field name="estado"/>
                     </group>
                 </sheet>
             </form>

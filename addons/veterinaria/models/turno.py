@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import timedelta
+import urllib.parse
 
 class Turno(models.Model):
     _name = 'veterinaria.turno'
@@ -15,7 +16,7 @@ class Turno(models.Model):
         ('draft', 'Borrador'),
         ('pending', 'Pendiente'),
         ('confirmed', 'Confirmado'),
-        ('done', 'Realizado'), 
+        ('done', 'Realizado'),
         ('cancel', 'Cancelado'),
         ], default='draft', string="Estado")
 
@@ -35,12 +36,10 @@ class Turno(models.Model):
         nuevo_historial = self.env['veterinaria.historial'].create({
             'mascota_id': self.mascota_id.id,
             'veterinario_id': self.veterinario_id.id,
-            'fecha': fields.Datetime.now(), 
+            'fecha': fields.Datetime.now(),
             'turno_id': self.id,
         })
-        
         self.write({'estado': 'done'})
-    
         return {
             'name': 'Historia Clínica',
             'type': 'ir.actions.act_window',
@@ -49,16 +48,20 @@ class Turno(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
     def action_whatsapp_reminder(self):
         """Abre un link de WhatsApp con un mensaje pre-cargado."""
         self.ensure_one()
+        if not self.mascota_id:
+            raise ValidationError("El turno no tiene una mascota asignada.")
+        if not self.fecha_hora:
+            raise ValidationError("El turno no tiene una fecha asignada.")
         if not self.mascota_id.propietario_id.mobile and not self.mascota_id.propietario_id.phone:
             raise ValidationError("El propietario no tiene un número de teléfono configurado.")
-        
+
         phone = self.mascota_id.propietario_id.mobile or self.mascota_id.propietario_id.phone
         phone = "".join(filter(str.isdigit, phone))
 
-       
         fecha_local = fields.Datetime.context_timestamp(self, self.fecha_hora)
         fecha_formateada = fecha_local.strftime('%d/%m/%Y %H:%M')
 
@@ -66,19 +69,16 @@ class Turno(models.Model):
             f"Hola {self.mascota_id.propietario_id.name}! Te escribimos de la Veterinaria para recordarte "
             f"el turno de {self.mascota_id.name} para el día {fecha_formateada}. Te esperamos!"
         )
-        
-        import urllib.parse
+
         mensaje_encoded = urllib.parse.quote(mensaje)
-        
         url = f"https://wa.me/{phone}?text={mensaje_encoded}"
-        
+
         return {
             'type': 'ir.actions.act_url',
             'url': url,
             'target': 'new',
         }
 
-    
     @api.constrains('fecha_hora', 'veterinario_id')
     def _check_fecha_hora(self):
         for record in self:

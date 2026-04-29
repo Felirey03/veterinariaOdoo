@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from datetime import datetime
 
 class HistorialClinico(models.Model):
@@ -28,6 +29,12 @@ class HistorialClinico(models.Model):
 
     
     factura_id = fields.Many2one('account.move', string='Factura', readonly=True, copy=False)
+    tiene_factura_activa = fields.Boolean(compute='_compute_tiene_factura_activa')
+
+    @api.depends('factura_id', 'factura_id.state')
+    def _compute_tiene_factura_activa(self):
+        for record in self:
+            record.tiene_factura_activa = bool(record.factura_id and record.factura_id.state != 'cancel')
 
     @api.depends('fecha', 'mascota_id')
     def _compute_name(self):
@@ -40,6 +47,10 @@ class HistorialClinico(models.Model):
 
     def action_crear_factura(self):
         self.ensure_one()
+        if not self.propietario_id:
+            raise ValidationError("No se puede facturar porque la mascota no tiene un propietario asignado.")
+        if self.tiene_factura_activa:
+            return
         factura = self.env['account.move'].create({
             'move_type': 'out_invoice',
             'partner_id': self.propietario_id.id,
