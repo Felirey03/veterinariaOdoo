@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:15
+    container_name: vetodoo-db
+    restart: always
+    environment:
+      POSTGRES_DB: vetodoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - vetodoo-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    image: vetodoo_web:latest
+    container_name: vetodoo-web
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "9069:8069"
+      - "9072:8072"
+    environment:
+      HOST: db
+      PORT: 5432
+      USER: odoo
+      PASSWORD: odoo
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes:
+      - ./web/odoo.conf:/etc/odoo/odoo.conf:ro
+      - vetodoo-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+    command:
+      - odoo
+      - -c
+      - /etc/odoo/odoo.conf
+      - -d
+      - vetodoo
+      - --db-filter=vetodoo
+      - --init=base 
+
+volumes:
+  vetodoo-db-data:
+  vetodoo-data:

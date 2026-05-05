@@ -21,6 +21,12 @@
         <field name="arch" type="xml">
             <form string="Consulta Veterinaria">
                 <header>
+                    <button name="action_ai_clinical_help"
+                            string="Pulir Redacción"
+                            type="object"
+                            class="btn-info"
+                            icon="fa-magic"
+                            invisible="not subjetivo and not objetivo and not evaluacion and not plan"/>
                     <button name="action_crear_factura"
                             string="Generar Factura"
                             type="object"
@@ -36,6 +42,18 @@
                     <field name="turno_estado" invisible="1"/>
                 </header>
                 <sheet>
+                    <field name="es_sugerencia_ia" invisible="1"/>
+                    <field name="alerta_medica_rel" invisible="1"/>
+                    
+                    <div class="alert alert-warning text-center" role="alert" invisible="not es_sugerencia_ia">
+                        <strong>✨ BORRADOR ASISTIDO:</strong> El contenido fue redactado por el asistente para mejorar la claridad técnica. 
+                        Por favor, valide que se ajuste a su criterio médico.
+                    </div>
+
+                    <div class="alert alert-danger text-center" role="alert" invisible="not alerta_medica_rel">
+                        <strong>ALERTA MÉDICA:</strong> <field name="alerta_medica_rel"/>
+                    </div>
+
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
@@ -70,6 +88,17 @@
                         </page>
                         <page string="Plan (P)" name="plan">
                             <field name="plan" placeholder="Tratamiento, medicación, recomendaciones..."/>
+                        </page>
+                        <page string="Evolución Clínica" name="ia_analysis" invisible="not ia_insights_rel">
+                            <div class="alert alert-info" role="alert">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>📈 RESUMEN DE EVOLUCIÓN CLÍNICA</strong>
+                                    <button name="action_refresh_ia_insights" string="Actualizar Análisis" type="object" class="btn btn-outline-primary btn-sm" icon="fa-refresh"/>
+                                </div>
+                                <div style="background: white; border-radius: 5px; padding: 15px; border: 1px solid #dee2e6;">
+                                    <field name="ia_insights_rel" readonly="1"/>
+                                </div>
+                            </div>
                         </page>
                     </notebook>
                 </sheet>

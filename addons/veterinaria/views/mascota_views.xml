@@ -39,6 +39,10 @@
         <field name="arch" type="xml">
             <form string="Mascota">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_generate_ia_insights" string="Analizar Tendencias" type="object" class="oe_stat_button" icon="fa-line-chart"/>
+                    </div>
+                    
                     <field name="tiene_vacunas_vencidas" invisible="1"/>
                     <div class="alert alert-danger text-center" role="alert" invisible="not tiene_vacunas_vencidas">
                         <strong>ATENCIÓN:</strong> Esta mascota tiene <strong>vacunas o refuerzos vencidos</strong>. Revisar pestaña "Plan Sanitario".
@@ -69,6 +73,16 @@
                             <field name="propietario_id"/>
                         </group>
                     </group>
+
+                    <div class="alert alert-info mt-3" role="alert" invisible="not ia_insights">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <strong>📈 RESUMEN DE EVOLUCIÓN CLÍNICA</strong>
+                            <small class="text-muted">Actualizado: <field name="ia_insights_last_update" widget="datetime"/></small>
+                        </div>
+                        <div style="background: white; border-radius: 5px; padding: 15px; border: 1px solid #dee2e6;">
+                            <field name="ia_insights" readonly="1"/>
+                        </div>
+                    </div>
 
                     <notebook>
                         <page string="Alertas y Notas Médicas" name="medical_alerts_page">

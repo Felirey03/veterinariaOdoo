@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Propietario -->
+        <record id="res_partner_demo_1" model="res.partner">
+            <field name="name">Felipe Reynoso</field>
+            <field name="mobile">5491112345678</field>
+            <field name="email">felipe.demo@example.com</field>
+        </record>
+
+        <!-- Mascota -->
+        <record id="mascota_demo_1" model="veterinaria.mascota">
+            <field name="name">Rocky</field>
+            <field name="especie">perro</field>
+            <field name="raza">Golden Retriever</field>
+            <field name="sexo">macho</field>
+            <field name="propietario_id" ref="res_partner_demo_1"/>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(years=3)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <!-- Historial previo con un peso para la demo de "Ultimo Peso" -->
+        <record id="historial_demo_1" model="veterinaria.historial">
+            <field name="mascota_id" ref="mascota_demo_1"/>
+            <field name="fecha" eval="(datetime.now() - relativedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="peso">28.5</field>
+            <field name="diagnostico">Chequeo anual de rutina.</field>
+            <field name="tratamiento">Todo excelente. Continuar con dieta balanceada.</field>
+        </record>
+
+        <!-- Turno para hoy (Confirmado) para que el botón de Iniciar esté visible -->
+        <record id="turno_demo_1" model="veterinaria.turno">
+            <field name="mascota_id" ref="mascota_demo_1"/>
+            <field name="veterinario_id" ref="base.user_admin"/>
+            <field name="fecha_hora" eval="datetime.now().strftime('%Y-%m-%d 10:00:00')"/>
+            <field name="estado">confirmed</field>
+        </record>
+    </data>
+</odoo>

@@ -10,13 +10,15 @@
 	"data": [
         'data/demo_data.xml',
         'data/cron_data.xml',
+        'data/ai_config.xml',
         'security/ir.model.access.csv',
 		'views/turno_views.xml',
 		'views/mascota_views.xml',
 		'views/historial_views.xml',
 		'views/vacuna_views.xml',
 		'views/veterinaria_menuitems.xml',
+		'views/res_config_settings_views.xml',
     ],
 	"installable": True,
 	"application": False,
-}	
+}

@@ -2,6 +2,8 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import timedelta
 import urllib.parse
+import logging
+_logger = logging.getLogger(__name__)
 
 class Turno(models.Model):
     _name = 'veterinaria.turno'
@@ -51,7 +53,7 @@ class Turno(models.Model):
         }
 
     def action_whatsapp_reminder(self):
-        """Abre un link de WhatsApp con un mensaje pre-cargado."""
+        """Abre un link de WhatsApp con un mensaje generado por IA o pre-cargado."""
         self.ensure_one()
         if not self.mascota_id:
             raise ValidationError("El turno no tiene una mascota asignada.")
@@ -60,16 +62,62 @@ class Turno(models.Model):
         if not self.mascota_id.propietario_id.mobile and not self.mascota_id.propietario_id.phone:
             raise ValidationError("El propietario no tiene un número de teléfono configurado.")
 
+        # Intentar obtener la API Key de Groq desde los parámetros del sistema
+        api_key = self.env['ir.config_parameter'].sudo().get_param('veterinaria.groq_api_key')
+        _logger.info("GROG API KEY ENCONTRADA: %s", bool(api_key))
+        
         phone = self.mascota_id.propietario_id.mobile or self.mascota_id.propietario_id.phone
         phone = "".join(filter(str.isdigit, phone))
-
         fecha_local = fields.Datetime.context_timestamp(self, self.fecha_hora)
         fecha_formateada = fecha_local.strftime('%d/%m/%Y %H:%M')
 
-        mensaje = (
-            f"Hola {self.mascota_id.propietario_id.name}! Te escribimos de la Veterinaria para recordarte "
-            f"el turno de {self.mascota_id.name} para el día {fecha_formateada}. Te esperamos!"
-        )
+        mensaje = ""
+        if api_key:
+            try:
+                
+                from groq import Groq
+                client = Groq(api_key=api_key)
+                
+                #Prompt para la IA
+                prompt = f"""
+                Actúa como un asistente administrativo de una clínica veterinaria. 
+                Genera un mensaje de WhatsApp para recordar un turno.
+                
+                DATOS:
+                - Dueño: {self.mascota_id.propietario_id.name}
+                - Mascota: {self.mascota_id.name}
+                - Fecha y Hora: {fecha_formateada}
+                - Peso actual de la mascota: {self.mascota_id.ultimo_peso} kg
+                
+                REGLAS:
+                - Tono: Muy informal y cálido, pero profesional.
+                - Sé breve y claro.
+                - Menciona a la mascota por su nombre.
+                - El mensaje debe ser en español.
+                - No uses emojis excesivos.
+                """
+                
+                completion = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                    max_tokens=150,
+                )
+                mensaje = completion.choices[0].message.content.strip()
+                
+            except Exception as e:
+                
+                #Esto es por si falla la IA el mensaje por defecto!
+                mensaje = (
+                    f"Hola {self.mascota_id.propietario_id.name}! Te recordamos el turno de "
+                    f"{self.mascota_id.name} para el día {fecha_formateada}. ¡Te esperamos!"
+                )
+        else:
+            #Mensaje por defecto si no hay API Key
+            mensaje = (
+                f"Hola {self.mascota_id.propietario_id.name}! Te escribimos de la Veterinaria para recordarte "
+                f"el turno de {self.mascota_id.name} para el día {fecha_formateada}. Te esperamos!"
+            )
 
         mensaje_encoded = urllib.parse.quote(mensaje)
         url = f"https://wa.me/{phone}?text={mensaje_encoded}"

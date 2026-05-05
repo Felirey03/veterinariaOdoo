@@ -2,81 +2,138 @@
 <odoo>
     <data noupdate="1">
         
-        <record id="res_partner_demo_vet" model="res.partner">
+        <!-- DUEÑOS (Partners) -->
+        <record id="partner_juan" model="res.partner">
             <field name="name">Juan Pérez</field>
             <field name="email">juan.perez@example.com</field>
-            <field name="phone">11 2233-4455</field>
+            <field name="phone">11 4455-6677</field>
         </record>
 
-        
+        <record id="partner_maria" model="res.partner">
+            <field name="name">María García</field>
+            <field name="email">m.garcia@outlook.com</field>
+        </record>
+
+        <record id="partner_carlos" model="res.partner">
+            <field name="name">Carlos López</field>
+        </record>
+
+        <record id="partner_elena" model="res.partner">
+            <field name="name">Elena Martínez</field>
+        </record>
+
+        <record id="partner_pedro" model="res.partner">
+            <field name="name">Pedro Ruiz</field>
+        </record>
+
+        <!-- MASCOTAS -->
+        <!-- 1. Rocky: Cuadro digestivo recurrente -->
         <record id="mascota_rocky" model="veterinaria.mascota">
             <field name="name">Rocky</field>
             <field name="especie">perro</field>
+            <field name="raza">Pastor Alemán</field>
+            <field name="sexo">macho</field>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(years=3)).strftime('%Y-%m-%d')"/>
+            <field name="propietario_id" ref="partner_juan"/>
+            <field name="alerta_medica">Sensibilidad gástrica. Alergia a la Dipirona.</field>
+        </record>
+
+        <!-- 2. Luna: Cuadro dermatológico -->
+        <record id="mascota_luna" model="veterinaria.mascota">
+            <field name="name">Luna</field>
+            <field name="especie">gato</field>
+            <field name="raza">Siamés</field>
+            <field name="sexo">hembra</field>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(years=2)).strftime('%Y-%m-%d')"/>
+            <field name="propietario_id" ref="partner_maria"/>
+        </record>
+
+        <!-- 3. Toby: Cuadro cardíaco (Paciente geronte) -->
+        <record id="mascota_toby" model="veterinaria.mascota">
+            <field name="name">Toby</field>
+            <field name="especie">perro</field>
+            <field name="raza">Poodle</field>
+            <field name="sexo">macho</field>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(years=12)).strftime('%Y-%m-%d')"/>
+            <field name="propietario_id" ref="partner_carlos"/>
+            <field name="alerta_medica">Soplo cardíaco grado III. No usar anestesia inhalatoria sin riesgo.</field>
+        </record>
+
+        <!-- 4. Simba: Control y vacunas -->
+        <record id="mascota_simba" model="veterinaria.mascota">
+            <field name="name">Simba</field>
+            <field name="especie">perro</field>
             <field name="raza">Golden Retriever</field>
             <field name="sexo">macho</field>
-            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
-            <field name="propietario_id" ref="res_partner_demo_vet"/>
-            <field name="alerta_medica">Alérgico a la Penicilina. Cuidado con la cadera derecha.</field>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
+            <field name="propietario_id" ref="partner_elena"/>
         </record>
 
+        <!-- 5. Lola: Ave con trauma -->
+        <record id="mascota_lola" model="veterinaria.mascota">
+            <field name="name">Lola</field>
+            <field name="especie">ave</field>
+            <field name="raza">Loro Hablador</field>
+            <field name="sexo">hembra</field>
+            <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(years=5)).strftime('%Y-%m-%d')"/>
+            <field name="propietario_id" ref="partner_pedro"/>
+        </record>
+
+        <!-- HISTORIALES CLÍNICOS (Con notas para ser pulidas por la IA) -->
         
-        <!-- PRODUCTOS DEMO (Vacunas) -->
-        <record id="product_vacuna_rabia" model="product.product">
-            <field name="name">Vacuna Antirrábica</field>
-            <field name="type">consu</field>
-            <field name="categ_id" ref="product.product_category_all"/>
-        </record>
-
-        <record id="product_vacuna_quintuple" model="product.product">
-            <field name="name">Vacuna Quíntuple</field>
-            <field name="type">consu</field>
-            <field name="categ_id" ref="product.product_category_all"/>
-        </record>
-
-        <!-- APLICACIONES DE VACUNA DEMO -->
-        <record id="vacuna_demo_1" model="veterinaria.vacuna">
+        <!-- Rocky: Caso 1 -->
+        <record id="historial_rocky_1" model="veterinaria.historial">
             <field name="mascota_id" ref="mascota_rocky"/>
-            <field name="producto_id" ref="product_vacuna_rabia"/>
-            <field name="fecha_aplicacion" eval="datetime.now().strftime('%Y-%m-%d')"/>
-            <field name="fecha_refuerzo" eval="(datetime.now() + relativedelta(years=1)).strftime('%Y-%m-%d')"/>
-            <field name="veterinario_id" ref="base.user_admin"/>
+            <field name="fecha" eval="(datetime.now() - relativedelta(days=30))"/>
+            <field name="peso">28.5</field>
+            <field name="subjetivo">el dueño dice que no come, panza hinchada y hace caca blanda</field>
+            <field name="objetivo">temperatura 39.2, dolor cuando le toco la panza, sonidos raros en intestino</field>
+            <field name="evaluacion">parece una gastroenteritis por algo que comio</field>
+            <field name="plan">dieta de pollo y arroz, probioticos y traerlo si vomita</field>
         </record>
 
-        <record id="vacuna_demo_2" model="veterinaria.vacuna">
-            <field name="mascota_id" ref="mascota_rocky"/>
-            <field name="producto_id" ref="product_vacuna_quintuple"/>
-            <field name="fecha_aplicacion" eval="(datetime.now() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
-            <field name="fecha_refuerzo" eval="(datetime.now() - relativedelta(days=15)).strftime('%Y-%m-%d')"/>
-            <field name="veterinario_id" ref="base.user_admin"/>
-            <field name="observaciones">Refuerzo pendiente de la sesión anterior.</field>
-        </record>
-
-        <record id="historial_demo_1" model="veterinaria.historial">
+        <record id="historial_rocky_2" model="veterinaria.historial">
             <field name="mascota_id" ref="mascota_rocky"/>
             <field name="fecha" eval="datetime.now()"/>
-            <field name="peso">15.5</field>
-            <field name="temperatura">38.5</field>
-            <field name="frecuencia_cardiaca">90</field>
-            <field name="frecuencia_respiratoria">24</field>
-            <field name="subjetivo"><![CDATA[
-                <p>El dueño reporta que Rocky ha estado decaído desde ayer. Ha perdido el apetito y no quiere jugar.</p>
-                <ul>
-                    <li>Letargia leve</li>
-                    <li>Inapetencia</li>
-                </ul>
-            ]]></field>
-            <field name="objetivo"><![CDATA[
-                <p><strong>Examen físico:</strong> Mucosas rosadas y húmedas. Tiempo de llenado capilar < 2 seg.</p>
-                <p>Palpación abdominal normal, sin dolor aparente. Ganglios linfáticos normales.</p>
-            ]]></field>
-            <field name="evaluacion"><![CDATA[
-                <p>Posible cuadro viral leve o reacción por cambio de dieta. Se descarta obstrucción por palpación.</p>
-            ]]></field>
-            <field name="plan"><![CDATA[
-                <p>1. Dieta blanda por 48hs (Arroz y pollo).</p>
-                <p>2. Control de temperatura cada 12hs.</p>
-                <p>3. Regresar si presenta vómitos.</p>
-            ]]></field>
+            <field name="peso">26.2</field>
+            <field name="subjetivo">sigue sin hambre, bajo mucho de peso, gime cuando se echa</field>
+            <field name="objetivo">panza muy dura, mucosas palidas, bajof 2 kilos en 1 mes</field>
+            <field name="evaluacion">cuadro abdominal agudo, sospecha de cuerpo extraño</field>
+            <field name="plan">hacer placas ya, fluidoterapia y no darle nada de comer</field>
         </record>
+
+        <!-- Luna: Caso 2 -->
+        <record id="historial_luna_1" model="veterinaria.historial">
+            <field name="mascota_id" ref="mascota_luna"/>
+            <field name="fecha" eval="datetime.now()"/>
+            <field name="peso">4.2</field>
+            <field name="subjetivo">se rasca mucho la oreja derecha, tiene olor feo y sacude la cabeza</field>
+            <field name="objetivo">oreja roja por dentro, mucha cera negra, le duele cuando le limpio</field>
+            <field name="evaluacion">otitis externa por acaros o levaduras</field>
+            <field name="plan">limpieza con solucion antiseptica y gotas con antibiotico cada 12 horas</field>
+        </record>
+
+        <!-- Toby: Caso 3 -->
+        <record id="historial_toby_1" model="veterinaria.historial">
+            <field name="mascota_id" ref="mascota_toby"/>
+            <field name="fecha" eval="datetime.now()"/>
+            <field name="peso">8.5</field>
+            <field name="subjetivo">tose mucho a la noche, parece que se ahoga y no quiere caminar mas de 1 cuadra</field>
+            <field name="objetivo">soplo audible muy fuerte, lengua un poco azul cuando tose, frecuencia cardiaca alta</field>
+            <field name="evaluacion">insuficiencia cardiaca congestiva grado III</field>
+            <field name="plan">empezar con enalapril cada 12h y furosemida para el liquido en pulmones</field>
+        </record>
+
+        <!-- Lola: Caso 4 -->
+        <record id="historial_lola_1" model="veterinaria.historial">
+            <field name="mascota_id" ref="mascota_lola"/>
+            <field name="fecha" eval="datetime.now()"/>
+            <field name="peso">0.4</field>
+            <field name="subjetivo">se golpeo contra un vidrio, tiene el ala bajada y no pía</field>
+            <field name="objetivo">ala derecha caida, herida pequeña en el pico, no vuela</field>
+            <field name="evaluacion">trauma en ala derecha, posible fractura o luxacion</field>
+            <field name="plan">vendar el ala, reposo en jaula chica y antiinflamatorios en el agua</field>
+        </record>
+
     </data>
 </odoo>
