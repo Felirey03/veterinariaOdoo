@@ -14,6 +14,7 @@
         'security/ir.model.access.csv',
 		'views/turno_views.xml',
 		'views/mascota_views.xml',
+		'report/receta_report.xml',
 		'views/historial_views.xml',
 		'views/vacuna_views.xml',
 		'views/veterinaria_menuitems.xml',

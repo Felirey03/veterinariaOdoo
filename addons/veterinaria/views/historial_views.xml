@@ -100,6 +100,16 @@
                                 </div>
                             </div>
                         </page>
+                        <page string="Receta (IA)" name="receta_ia">
+                            <div class="alert alert-info d-flex justify-content-between align-items-center mb-2" role="alert">
+                                <strong>📝 GENERADOR DE RECETAS</strong>
+                                <div>
+                                    <button name="action_generar_receta_ia" string="Extraer del Plan (IA)" type="object" class="btn btn-primary btn-sm" icon="fa-magic"/>
+                                    <button name="%(action_report_receta)d" string="Imprimir PDF" type="action" class="btn btn-secondary btn-sm ml-2" icon="fa-print" invisible="not receta_ia"/>
+                                </div>
+                            </div>
+                            <field name="receta_ia" placeholder="La IA extraerá aquí los medicamentos y posología indicados en el Plan, listos para imprimir..."/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

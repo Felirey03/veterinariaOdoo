@@ -21,6 +21,12 @@ Actualmente el módulo es una herramienta clínica funcional:
 
 ## Próximos pasos
 
+El proyecto evoluciona hacia una plataforma de gestión clínica integral. Los objetivos a corto plazo son:
+
+- **CRM Preventivo Inteligente**: Listado dinámico de pacientes con vacunas vencidas y generación de mensajes de recordatorio para WhatsApp Web, transformando datos clínicos en retorno de clientes.
+- **Tablero de Control (Kanban de Guardia)**: Visualización en tiempo real del estado de los pacientes en la clínica (En Espera, En Consulta, Internación, Egreso).
+- **Gestión de Internación y Monitoreo**: Módulo específico para control de constantes vitales en pacientes hospitalizados con gráficas de evolución térmica.
+- **Inventario Clínico Vinculado**: Automatización del descuento de stock e insumos quirúrgicos directamente desde el plan de tratamiento de la consulta.
 - **IA para WhatsApp**: Implementación de un asistente que entienda mensajes de voz o texto para agendar turnos automáticamente.
 
 ## Objetivo del proyecto
@@ -29,4 +35,4 @@ Más allá de lo técnico, la idea es construir algo que podría usarse en un ca
 
 ## Estado
 
-En desarrollo
+En desarrollo   

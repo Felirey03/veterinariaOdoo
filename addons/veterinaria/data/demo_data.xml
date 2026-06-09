@@ -5,7 +5,7 @@
         <!-- DUEÑOS (Partners) -->
         <record id="partner_juan" model="res.partner">
             <field name="name">Juan Pérez</field>
-            <field name="email">juan.perez@example.com</field>
+            <field name="email">[EMAIL_ADDRESS]</field>
             <field name="phone">11 4455-6677</field>
         </record>
 
@@ -47,7 +47,7 @@
             <field name="fecha_nacimiento" eval="(datetime.now() - relativedelta(years=2)).strftime('%Y-%m-%d')"/>
             <field name="propietario_id" ref="partner_maria"/>
         </record>
-
+        
         <!-- 3. Toby: Cuadro cardíaco (Paciente geronte) -->
         <record id="mascota_toby" model="veterinaria.mascota">
             <field name="name">Toby</field>
@@ -111,6 +111,22 @@
             <field name="objetivo">oreja roja por dentro, mucha cera negra, le duele cuando le limpio</field>
             <field name="evaluacion">otitis externa por acaros o levaduras</field>
             <field name="plan">limpieza con solucion antiseptica y gotas con antibiotico cada 12 horas</field>
+        </record>
+
+        <!-- Nueva Consulta para Prueba de Receta -->
+        <record id="historial_luna_receta_test" model="veterinaria.historial">
+            <field name="mascota_id" ref="mascota_luna"/>
+            <field name="fecha" eval="datetime.now()"/>
+            <field name="peso">4.3</field>
+            <field name="subjetivo">Control de otitis. El dueño reporta mejoría pero todavía hay algo de prurito.</field>
+            <field name="objetivo">Inflamación del conducto disminuida. Menos detritos celulares.</field>
+            <field name="evaluacion">Otitis en resolución. Se mantiene tratamiento.</field>
+            <field name="plan"><![CDATA[
+                1. Continuar con <strong>Otiflex</strong>: 5 gotas en cada oído cada 12 horas por 10 días más.
+                2. Limpieza con <strong>Dermocanis</strong> una vez por día antes de las gotas.
+                3. Repetir cefalexina 500mg: media tableta cada 12 horas por 7 días.
+                4. Control en 15 días.
+            ]]></field>
         </record>
 
         <!-- Toby: Caso 3 -->

@@ -94,11 +94,14 @@ class Mascota(models.Model):
             
             REGLAS DE FORMATO (HTML):
             - Título general: <h3 style='color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px;'>Resumen de Evolución Clínica</h3>
-            - Títulos de sección: <h4 style='color: #2980b9; margin-top: 20px; font-weight: bold;'>[Nombre Sección]</h4>
+            - Títulos de sección (USAR ESTOS EXACTAMENTE):
+                1. <h4 style='color: #2980b9; margin-top: 20px; font-weight: bold;'>Evolución de Peso</h4>
+                2. <h4 style='color: #2980b9; margin-top: 20px; font-weight: bold;'>Patrones Recurrentes</h4>
+                3. <h4 style='color: #2980b9; margin-top: 20px; font-weight: bold;'>Alertas de Datos</h4>
             - Listas: <ul> con <li> bien espaciados.
             - Alertas: Usa <span style='color: #c0392b; font-weight: bold;'> para resaltar alertas críticas de datos.
             
-            SECCIONES A COMPLETAR:
+            CONTENIDO POR SECCIÓN:
             1. Evolución de Peso: Compara pesos entre fechas y calcula variaciones (%) reales.
             2. Patrones Recurrentes: Identifica si un síntoma o motivo se repite en el tiempo.
             3. Alertas de Datos: Identifica si hay incoherencias o datos que el médico deba notar (Ej: tiempo prolongado con un fármaco según el historial).

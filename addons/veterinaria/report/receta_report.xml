@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Acción para imprimir la Receta Médica -->
+        <record id="action_report_receta" model="ir.actions.report">
+            <field name="name">Receta Médica</field>
+            <field name="model">veterinaria.historial</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">veterinaria.report_receta</field>
+            <field name="report_file">veterinaria.report_receta</field>
+            <field name="print_report_name">'Receta - %s' % (object.mascota_id.name)</field>
+            <field name="binding_model_id" ref="model_veterinaria_historial"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Template del Reporte QWeb para la Receta -->
+        <template id="report_receta">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            
+                            <!-- Cabecera de la Receta -->
+                            <div class="row mt-4 mb-4">
+                                <div class="col-6">
+                                    <h2 style="color: #2c3e50;">RECETA MÉDICA VETERINARIA</h2>
+                                    <p><strong>Fecha:</strong> <span t-field="doc.fecha" t-options='{"widget": "date"}'/></p>
+                                    <p><strong>Nº de Consulta:</strong> <span t-field="doc.name"/></p>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <h4 style="color: #2980b9;">Dr/a. <span t-field="doc.veterinario_id.name"/></h4>
+                                    <p class="text-muted"><span t-field="doc.veterinario_id.email"/></p>
+                                </div>
+                            </div>
+                            
+                            <hr style="border-top: 2px solid #3498db;"/>
+                            
+                            <!-- Datos del Paciente -->
+                            <div class="row mb-4 mt-4" style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+                                <div class="col-6">
+                                    <p><strong>Paciente:</strong> <span t-field="doc.mascota_id.name"/></p>
+                                    <p><strong>Especie:</strong> <span t-field="doc.mascota_id.especie" style="text-transform: capitalize;"/></p>
+                                </div>
+                                <div class="col-6">
+                                    <p><strong>Tutor / Propietario:</strong> <span t-field="doc.propietario_id.name"/></p>
+                                    <p><strong>Peso Actual:</strong> <span t-field="doc.peso"/> kg</p>
+                                </div>
+                            </div>
+
+                            <!-- Contenido Principal: La Receta (Generada por la IA) -->
+                            <div class="mt-5 mb-5">
+                                <h4 style="color: #2c3e50; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Indicaciones y Posología</h4>
+                                <div style="margin-top: 20px; font-size: 1.1em; line-height: 1.6;">
+                                    <!-- Aquí se inyecta el HTML limpio que extrajo la IA -->
+                                    <t t-raw="doc.receta_ia"/>
+                                </div>
+                            </div>
+
+                            <!-- Espacio para la firma (Dinámico si tiene firma digital en su perfil de Odoo) -->
+                            <div class="row" style="margin-top: 100px;">
+                                <div class="col-6 offset-6 text-center">
+                                    <!-- Si el usuario veterinario tiene la firma registrada en Odoo, la mostramos -->
+                                    <t t-if="doc.veterinario_id.sign_signature">
+                                        <img t-att-src="image_data_uri(doc.veterinario_id.sign_signature)" style="max-height: 80px; max-width: 200px;" alt="Firma"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="height: 80px;"></div>
+                                    </t>
+                                    <hr style="border-top: 1px solid black; width: 70%; margin-top: 5px;"/>
+                                    <p>Firma y Sello del Profesional</p>
+                                    <p><strong><span t-field="doc.veterinario_id.name"/></strong></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

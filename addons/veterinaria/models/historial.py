@@ -37,6 +37,7 @@ class HistorialClinico(models.Model):
     es_sugerencia_ia = fields.Boolean(string="Generado por IA", default=False)
     alerta_medica_rel = fields.Text(related='mascota_id.alerta_medica', string="Alerta Médica de Mascota")
     ia_insights_rel = fields.Html(related='mascota_id.ia_insights', string="Tendencias de Salud")
+    receta_ia = fields.Html(string='Receta (IA)', help="Indicaciones extraídas del plan por la IA para la impresión.")
 
     @api.depends('factura_id', 'factura_id.state')
     def _compute_tiene_factura_activa(self):
@@ -115,8 +116,60 @@ class HistorialClinico(models.Model):
         if self.mascota_id:
             self.mascota_id.action_generate_ia_insights(force=True)
         return True
-        
-        return True
+
+    def action_generar_receta_ia(self):
+        """Extrae la información médica del 'plan' y genera la receta en HTML."""
+        self.ensure_one()
+        if not self.plan:
+            raise ValidationError("Es necesario escribir un Plan Médico primero para generar la receta.")
+            
+        api_key = self.env['ir.config_parameter'].sudo().get_param('veterinaria.groq_api_key')
+        if not api_key:
+            raise ValidationError("No se encontró la API Key de Groq en la configuración.")
+
+        try:
+            from groq import Groq
+            client = Groq(api_key=api_key)
+            
+            prompt = f"""
+            Actúa estrictamente como un Formateador de Recetas Médicas. 
+            Tu único trabajo es leer el texto provisto y extraer EXCLUSIVAMENTE los medicamentos y sus indicaciones de uso para el paciente.
+            
+            REGLAS CRÍTICAS:
+            1. NO INVENTES medicamentos, ni dosis, ni agregues recomendaciones que no estén escritas en el texto.
+            2. Si el texto no menciona medicamentos ni tratamientos para el hogar, responde: "No se prescribieron medicamentos para el hogar."
+            3. Devuelve los resultados en un formato HTML simple utilizando etiquetas <p>, <ul> y <li>. Resalta los nombres de los fármacos con <strong>.
+            4. No uses formato Markdown (ni asteriscos, ni marcas backtick), devuelve SOLO HTML plano listo para imprimir en un documento.
+            5. El tono debe ser directo y claro para el dueño de la mascota.
+            
+            TEXTO ORIGINAL A PROCESAR (Plan del Médico):
+            {self.plan}
+            
+            RESPONDER ÚNICAMENTE CON EL HTML DE LA RECETA:
+            """
+            
+            completion = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.0  # Para que sea un analizador predecible y estricto
+            )
+            
+            respuesta_html = completion.choices[0].message.content
+            
+            # Limpiar posible basura del LLM si insiste en envolver en markdown
+            if respuesta_html.startswith("```html"):
+                respuesta_html = respuesta_html.replace("```html", "", 1)
+            if respuesta_html.endswith("```"):
+                respuesta_html = respuesta_html[:-3]
+                
+            self.write({
+                'receta_ia': respuesta_html.strip()
+            })
+            
+            return True
+            
+        except Exception as e:
+            raise ValidationError(f"Error al generar la receta (IA): {str(e)}")
 
     def action_finalizar_consulta(self):
         self.ensure_one()
