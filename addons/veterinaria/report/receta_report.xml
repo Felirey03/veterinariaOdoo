@@ -60,8 +60,8 @@
                             <div class="row" style="margin-top: 100px;">
                                 <div class="col-6 offset-6 text-center">
                                     <!-- Si el usuario veterinario tiene la firma registrada en Odoo, la mostramos -->
-                                    <t t-if="doc.veterinario_id.sign_signature">
-                                        <img t-att-src="image_data_uri(doc.veterinario_id.sign_signature)" style="max-height: 80px; max-width: 200px;" alt="Firma"/>
+                                    <t t-if="doc.veterinario_id.signature">
+                                        <div t-field="doc.veterinario_id.signature" t-options="{'widget': 'image', 'style': 'max-height: 80px; max-width: 200px; margin: auto;'}"/>
                                     </t>
                                     <t t-else="">
                                         <div style="height: 80px;"></div>
